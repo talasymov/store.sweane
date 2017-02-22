@@ -1,0 +1,165 @@
+var APP_DIR = "/admin/apply.php?command=";
+    $(document).ready(function()
+    {
+      CKEDITOR.config.extraPlugins = 'filebrowser';
+      CKEDITOR.config.filebrowserBrowseUrl = '/browser.php';
+      CKEDITOR.config.filebrowserUploadUrl = '/upload.php';
+      CKEDITOR.config.extraPlugins = 'youtube';
+      CKEDITOR.replace('content');
+
+      $("#addNews").click(function()
+      {
+        addNews("add_news");
+      });
+      selectNews();
+
+      $("#editNews").click(function()
+      {
+        $.ajax({
+          method: "post",
+          url: APP_DIR + "get_one_news",
+          data: {
+            id: $("#resultEdit").find("select").val(),
+            language: $("#languageSelect").val()
+          },
+          success: function(result){
+            data = JSON.parse(result);
+            console.log(data);
+            textarea = $("<textarea>");
+            textarea.attr("id", "content");
+
+            $("#description").val(data.description);
+            $("#content-shell").html("");
+            $("#content-shell").append(textarea);
+            $("#content").html(data.content);
+
+            $("#title").val(data.title);
+            $("#hashTags").val(data.hashTags);
+
+            CKEDITOR.replace('content');
+
+            $("#addNews").hide();
+            $("#editNewsButton").show();
+          }
+        });
+        $("#editNewsButton").click(function()
+        {
+          addNews("edit_news");
+        });
+      });
+      $("#deleteNews").click(function()
+      {
+        questDeleteNews();
+      });
+
+    });
+    function questDeleteNews() {
+        var txt;
+        var r = confirm("Are you sure!?");
+        if (r == true) {
+            txt = "You pressed OK!";
+            // alert(txt);
+            $.ajax({
+              url: APP_DIR + "delete_news",
+              method: "post",
+              data: {
+                id: $("#resultEdit").find("select").val()
+              },
+              success: function(result){
+                location.reload();
+              }
+            });
+        }
+
+    }
+    function selectNews()
+    {
+      $.ajax({
+        url: APP_DIR + "get_news",
+        success: function(result){
+          $("#resultEdit").find("select").html(result);
+        }
+      });
+    }
+    function addNews(type)
+    {
+      contentToTextarea();
+
+      content = $("#content").html();
+      title = $("#title").val();
+      description = $("#description").val();
+      fileImage = $("#fileImage");
+      hashTags = $("#hashTags").val();
+
+      var formData = new FormData();
+
+
+      $.each(fileImage[0].files, function (key, value) {
+          formData.append("image", value);
+      });
+      formData.append("content", content);
+      formData.append("title", title);
+      formData.append("description", description);
+      formData.append("hashTags", hashTags);
+      formData.append("id", $("#resultEdit").find("select").val());
+      formData.append("language", $("#languageSelect").val());
+
+      $.ajax({
+        method: "post",
+        url: APP_DIR + type,
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function(result)
+        {
+          alert(result);
+        }
+      });
+
+      console.log(formData);
+    }
+    function sendImgOnServer()
+    {
+    	avatar = $("#uploadImage");
+    	formData = new FormData();
+
+    	$.each(avatar[0].files, function (key, value) {
+    			formData.append("image", value);
+    	});
+    	$.ajax(
+    	{
+    			method: "POST",
+    			url: APP_DIR + "admin_upload_image",
+    			xhr: function ()
+    			{
+    				var currentXhr;
+    				currentXhr = $.ajaxSettings.xhr();
+    				if (currentXhr.upload)
+    				{
+    					// currentXhr.upload.addEventListener("progress", progressEventListener, false);
+    					console.debug(currentXhr);
+    				}
+    				return currentXhr;
+    			},
+    				data: formData,
+    				cache: false,
+    				contentType: false,
+    				processData: false,
+    				success: function (data) {
+    					alert(data);
+    				}
+    		});
+    }
+    function contentToTextarea(){
+    	var iframe2 = $('.cke_wysiwyg_frame');
+    	iframe2.ready(function() {
+    		$("#content").html(iframe2.contents().find(".cke_editable").html());
+    	});
+    }
+    function contentToTextareaSet(text){
+    	var iframe2 = $('.cke_wysiwyg_frame');
+    	iframe2.ready(function() {
+    		$("#content").html(iframe2.contents().find(".cke_editable").html(text));
+    	});
+    }
