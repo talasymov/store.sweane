@@ -9,6 +9,17 @@ $(document).ready(function()
     });
 
 
+    $(".filter-search").click(function () {
+        var listVar = [];
+
+        $(".filter-variable:checked").each(function (i, e) {
+            listVar.push($(e).attr("data-id"));
+        });
+
+        console.log(listVar);
+    });
+
+
     // var divPos = {};
     // var header = ".header";
     // var headerWidth = $(header).width() / 2;
@@ -454,3 +465,9 @@ var ReturnCircle = function(classElement)
         drawCircle(this.colorPercent, options.lineWidth, options.percent / 100);
     };
 }
+
+
+
+
+
+

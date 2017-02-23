@@ -171,11 +171,14 @@ EOF;
             case("str"):
                 $data = htmlentities(strval($data));
                 break;
+            case("array"):
+                $data = $data;
+                break;
             default:
                 $data = intval($data);
                 break;
         }
-        return htmlentities($data);
+        return $data;
     }
 
     public static function CheckFrom($var, $from = "array")
@@ -322,6 +325,8 @@ EOF;
 
             while($position = strpos($shellPrepare, "?"))
             {
+//                AuxiliaryFn::StylePrint($value);
+
                 if(isset($data[$i]))
                 {
                     $shellPrepare = BF::StringReplaceFirst("?", $value[$data[$i]], $shellPrepare);

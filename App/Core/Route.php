@@ -59,18 +59,11 @@ class Route
         }
 
         $array = [
-            "/dashboard/" => ["/Dashboard/Dashboard", "Dashboard", "Index"],
-            "/dashboard/orders/" => ["/Dashboard/Dashboard", "Dashboard", "OrdersOne"],
-            "/dashboard/tasks/" => ["/Dashboard/Dashboard", "Dashboard", "TasksOne"],
             "/blog/" => ["/Blog", "Blog", "Index"],
             "/aboutus/" => ["/AboutUs", "AboutUs", "Index"],
+            "/category/" => ["/Category", "Category", "Index"],
             "/contacts/" => ["/Contacts", "Contacts", "Index"],
-            "/portfolio/" => ["/Portfolio", "Portfolio", "Index"],
-            "/portfolio/category/" => ["/Portfolio", "Portfolio", "Category"],
-            "/shop/" => ["/Shop", "Shop", "Index"],
-            "/shop/category/" => ["/Shop", "Shop", "Category"],
             "/login/" => ["/Login", "Login", "Index"],
-            "/services/" => ["/Services", "Services", "Index"],
             "/requests/" => ["/Requests", "Requests", "Ajax"],
             "/404/" => ["/NotFound", "NotFound", "Index"],
             "" => ["/Main", "Main", "Index"],
@@ -91,6 +84,7 @@ class Route
     {
         $link = REQUEST_URI;
         $args = "";
+        $argsArray = [];
 
         if(substr($link, -1) != "/")
         {
@@ -105,8 +99,24 @@ class Route
             $link = $link[0];
         }
 
+        if(isset($args) && strpos($args, "="))
+        {
+            $argumentsExplode = explode("&", $args);
+
+            if(is_array($argumentsExplode))
+            {
+                foreach ($argumentsExplode as $value)
+                {
+                    $paramsOne = explode("=", $value);
+
+                    $argsArray[$paramsOne[0]] = $paramsOne[1];
+                }
+            }
+
+            $arguments["arguments"] = $argsArray;
+        }
+
         $arguments["child"] = $link;
-        $arguments["arguments"] = $args;
 
         return $arguments;
     }

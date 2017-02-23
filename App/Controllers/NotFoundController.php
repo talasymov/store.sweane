@@ -3,6 +3,6 @@ class NotFoundController extends Controller
 {
     public function IndexAction($params = null)
     {
-        $this->view->GetTemplate("BasicPage.php", "NotFoundView.php");
+        $this->view->GetTemplate("DefaultPage.php", "NotFoundView.php");
     }
 }

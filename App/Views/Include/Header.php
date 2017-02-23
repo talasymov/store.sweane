@@ -5,6 +5,7 @@ $contacts = BF::GenerateList(DataBase::GetContacts(), '<span>?</span>', ["phones
 $Header = <<<EOF
 {$menu}<br /><br /><br />
 {LOGO} {SEARCH} {$contacts}<br /><br /><br />
+<hr />
 EOF;
 
 print($Header);

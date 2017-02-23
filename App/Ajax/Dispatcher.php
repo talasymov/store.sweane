@@ -38,4 +38,20 @@ function InitHere($command = null)
 
         AuxiliaryFn::StylePrint($image);
     }
+    else if($command == "Filter")
+    {
+        $filter = R::getAll("SELECT *  FROM Product
+
+        LEFT JOIN CharacteristicsOutput ON CharacteristicsOutput.cOutput_id_Product = Product.ID_Product
+
+        WHERE cOutput_id_SubCategory = ? AND cOutput_id_Value IN (?)
+        
+        GROUP BY Product.ID_Product",
+            [BF::ClearCode("category", "int", "post"), implode(",", BF::ClearCode("listVar", "array", "post"))]);
+
+        print(json_encode($filter));
+        print("asdd");
+    }
+
+    print($command);
 }
