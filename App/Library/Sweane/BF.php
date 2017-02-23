@@ -325,8 +325,6 @@ EOF;
 
             while($position = strpos($shellPrepare, "?"))
             {
-//                AuxiliaryFn::StylePrint($value);
-
                 if(isset($data[$i]))
                 {
                     $shellPrepare = BF::StringReplaceFirst("?", $value[$data[$i]], $shellPrepare);
@@ -341,6 +339,34 @@ EOF;
             }
 
             $menuLi .= $shellPrepare;
+        }
+
+        return $menuLi;
+    }
+
+    public static function GenerateListSimple($array, $shell, $data)
+    {
+        $menuLi = "";
+
+        $array = explode($data, $array);
+
+        foreach ($array as $value)
+        {
+            $i = 0;
+            $shellPrepare = $shell;
+
+            while($position = strpos($shellPrepare, "?"))
+            {
+                $shellPrepare = BF::StringReplaceFirst("?", $value, $shellPrepare);
+
+                $i++;
+            }
+
+
+            if(isset($value) && $value != null)
+            {
+                $menuLi .= $shellPrepare;
+            }
         }
 
         return $menuLi;

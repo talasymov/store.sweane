@@ -12,7 +12,7 @@ foreach ($data["filters"] as $key => $value)
     $echoFilter .= $header . "<br />" . $news . "<br /><br />";
 }
 
-$echoProduct = BF::GenerateList($data["products"], '<a href="/product/?"><div style="display: block; border: 1px solid red"><strong>?</strong><span><img src="?">? __ ?</span></div></a>', ["ID_product", "ProductName", "ProductImages", "ProductPrice", "ProductLastPrice"]);
+$echoProduct = BF::GenerateList($data["products"], '<a href="/product/?"><div style="display: block; border: 1px solid red"><strong>?</strong><span><img src="?">? __ ?</span></div></a>', ["ID_product", "ProductName", "ProductImagesPreview", "ProductPrice", "ProductLastPrice"]);
 
 $bodyText = <<<EOF
     SELECT FROM<br />

@@ -62,6 +62,7 @@ class Route
             "/blog/" => ["/Blog", "Blog", "Index"],
             "/aboutus/" => ["/AboutUs", "AboutUs", "Index"],
             "/category/" => ["/Category", "Category", "Index"],
+            "/product/" => ["/Product", "Product", "Index"],
             "/contacts/" => ["/Contacts", "Contacts", "Index"],
             "/login/" => ["/Login", "Login", "Index"],
             "/requests/" => ["/Requests", "Requests", "Ajax"],
